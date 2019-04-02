@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+</head>
+<body>
+<div class="container">
+    <div class="box">
+        <form method="post">
+            {{ form.csrf_token }}
+            <div class="layer">
+                <table>
+                    {% for a, b, c, d, e, f in data %}
+                        <tr>
+                            <td class="qwerty"> {{ a }} </td><td class="qwerty"> {{ b }} </td><td class="qwerty"> {{ c }} </td><td class="qwerty"> {{ d }} </td><td class="qwerty"> {{ e }} </td><td class="qwerty"> {{ f }} </td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            </div>
+            <div class="testcss">
+                {% for field in form %}
+                    <div class="fieldWrapper">
+                    {{ field.label }}
+                    <br>
+                    {{ field }}
+                    </div>
+                {% endfor %}
+{#                {{ form.attrib_1.label }}#}
+{#                {{ form.attrib_1 }}<br>#}
+{#                {{ form.attrib_2.label }}#}
+{#                {{ form.attrib_2 }}<br>#}
+{#                {{ form.attrib_3.label }}#}
+{#                {{ form.attrib_3 }}<br>#}
+{#                {{ form.attrib_4.label }}#}
+{#                {{ form.attrib_4 }}<br>#}
+{#                {{ form.choice_field.label }}#}
+{#                {{ form.choice_field }}<br>#}
+{#                {{ form.choice_field_last.label }}#}
+{#                {{ form.choice_field_last }}<br>#}
+{#                {{ form.submit }}#}
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+</html>
