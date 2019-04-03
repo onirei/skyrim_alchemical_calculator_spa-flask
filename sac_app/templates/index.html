@@ -3,24 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
-    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" type="text/css" href="{{ url_for("static", filename="css/style.css") }}" />
 </head>
 <body>
-<div class="container">
     <div class="box">
-        <form method="post">
+        <form method="post" class="align-center">
             {{ form.csrf_token }}
-            <div class="layer">
-                <table>
+            <div class="table">
+                <table class="table">
                     {% for a, b, c, d, e, f in data %}
                         <tr>
-                            <td class="qwerty"> {{ a }} </td><td class="qwerty"> {{ b }} </td><td class="qwerty"> {{ c }} </td><td class="qwerty"> {{ d }} </td><td class="qwerty"> {{ e }} </td><td class="qwerty"> {{ f }} </td>
+                            <td> {{ a }} </td><td> {{ b }} </td><td> {{ c }} </td><td> {{ d }} </td><td> {{ e }} </td><td> {{ f }} </td>
                         </tr>
                     {% endfor %}
                 </table>
             </div>
-            <div class="testcss">
+            <div class="menu">
                 {% for field in form %}
                     <div class="fieldWrapper">
                     {{ field.label }}
@@ -28,6 +26,12 @@
                     {{ field }}
                     </div>
                 {% endfor %}
+            </div>
+        </form>
+    </div>
+</body>
+</html>
+
 {#                {{ form.attrib_1.label }}#}
 {#                {{ form.attrib_1 }}<br>#}
 {#                {{ form.attrib_2.label }}#}
@@ -41,9 +45,3 @@
 {#                {{ form.choice_field_last.label }}#}
 {#                {{ form.choice_field_last }}<br>#}
 {#                {{ form.submit }}#}
-            </div>
-        </form>
-    </div>
-</div>
-</body>
-</html>

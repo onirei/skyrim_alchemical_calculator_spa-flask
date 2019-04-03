@@ -1,0 +1,41 @@
+body {
+    background: url("/static/img/skyrim.jpg") 50% 0 no-repeat fixed;
+}
+
+.box{
+    vertical-align: top;
+    overflow:hidden;
+    width: 1050px;
+    margin: 5% auto 0;
+}
+.box div{
+    display:inline-block;
+    vertical-align: top;
+}
+
+.table {
+    overflow-y: scroll; /* Добавляем полосы прокрутки */
+    width: 700px;
+    height: 400px;
+    background: rgba(255, 255, 255, 0.5); /* Цвет фона */
+
+
+   }
+.menu{
+    width: 310px;
+    height: 400px;
+    padding-left: 10px; /* Поля вокруг текста */
+    background: rgba(255, 255, 255, 0.5); /* Цвет фона */
+}
+
+.fieldWrapper{
+    display: block !important;
+}
+.table{
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+td{
+    border-style: solid;
+    border-color: rgba(79, 79, 79, 0.5);
+}

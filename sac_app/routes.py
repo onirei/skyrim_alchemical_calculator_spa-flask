@@ -1,7 +1,7 @@
 from sac_app import app
 from sac_app.forms import CalculateForm
 from sac_app.calculate import finder, optimizer
-from flask import render_template, flash, redirect, url_for
+from flask import render_template, flash, redirect, url_for, jsonify, request
 
 
 
