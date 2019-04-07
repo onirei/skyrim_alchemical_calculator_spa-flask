@@ -1,25 +1,18 @@
 from flask_wtf import Form
 from wtforms import SelectField, SubmitField, RadioField
 from wtforms.validators import DataRequired
-import sqlite3
+from sac_app.models import Positive, Negative
+
 
 #наполнение списка выборов для формы из бд
 def selectors():
-    select = [('', '',),]
-    conn = sqlite3.connect("sac_app/Skyrim.sqlite")
-    cursor = conn.cursor()
-    cursor.execute("SELECT Name FROM Positive")
-    result = cursor.fetchall()
-    conn.close()
-    for i in range(len(result)):
-        select += ((result[i][0], result[i][0],),)
-    conn = sqlite3.connect("sac_app/Skyrim.sqlite")
-    cursor = conn.cursor()
-    cursor.execute("SELECT Name FROM Negative")
-    result = cursor.fetchall()
-    conn.close()
-    for i in range(len(result)):
-        select += [(result[i][0], result[i][0],),]
+    select = [('', '',), ]
+    positive = Positive.query.all()
+    for _ in positive:
+        select += [(_.attribute, _.attribute,), ]
+    negative = Negative.query.all()
+    for _ in negative:
+        select += [(_.attribute, _.attribute,), ]
     return select
 
 

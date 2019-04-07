@@ -1,34 +1,35 @@
-import sqlite3
+import psycopg2
 
 #простой поиск по бд
 def connection_to_bd(simplifier):
-    conn = sqlite3.connect("sac_app/Skyrim.sqlite")
+    conn = psycopg2.connect(host='localhost', port='5432', user='postgres', password='postgres', dbname='skyrim')
     cursor = conn.cursor()
     if len(simplifier) == 1:
-        cursor.execute("SELECT * FROM Ingredients "
-                       "WHERE (?) IN (ATTRIBUTE_1, ATTRIBUTE_2, ATTRIBUTE_3, ATTRIBUTE_4) ", (simplifier[0],))
+        cursor.execute("SELECT ingredient , id_object , attribute_1 , attribute_2 , attribute_3 , attribute_4 FROM Ingredients "
+                       "WHERE %s IN (ATTRIBUTE_1, ATTRIBUTE_2, ATTRIBUTE_3, ATTRIBUTE_4) ", (simplifier[0],))
     elif len(simplifier) == 2:
-        cursor.execute("SELECT * FROM Ingredients "
-                       "WHERE (?) IN (ATTRIBUTE_1, ATTRIBUTE_2, ATTRIBUTE_3, ATTRIBUTE_4) "
-                       "AND (?) IN (ATTRIBUTE_1, ATTRIBUTE_2, ATTRIBUTE_3, ATTRIBUTE_4) ", (simplifier[0],
-                                                                                            simplifier[1]))
+        cursor.execute("SELECT ingredient , id_object , attribute_1 , attribute_2 , attribute_3 , attribute_4 FROM Ingredients "
+                       "WHERE %s IN (ATTRIBUTE_1, ATTRIBUTE_2, ATTRIBUTE_3, ATTRIBUTE_4) "
+                       "AND %s IN (ATTRIBUTE_1, ATTRIBUTE_2, ATTRIBUTE_3, ATTRIBUTE_4) ", (simplifier[0],
+                                                                                            simplifier[1],))
     elif len(simplifier) == 3:
-        cursor.execute("SELECT * FROM Ingredients "
-                       "WHERE (?) IN (ATTRIBUTE_1, ATTRIBUTE_2, ATTRIBUTE_3, ATTRIBUTE_4) "
-                       "AND (?) IN (ATTRIBUTE_1, ATTRIBUTE_2, ATTRIBUTE_3, ATTRIBUTE_4) "
-                       "AND (?) IN (ATTRIBUTE_1, ATTRIBUTE_2, ATTRIBUTE_3, ATTRIBUTE_4) ", (simplifier[0],
+        cursor.execute("SELECT ingredient , id_object , attribute_1 , attribute_2 , attribute_3 , attribute_4 FROM Ingredients "
+                       "WHERE %s IN (ATTRIBUTE_1, ATTRIBUTE_2, ATTRIBUTE_3, ATTRIBUTE_4) "
+                       "AND %s IN (ATTRIBUTE_1, ATTRIBUTE_2, ATTRIBUTE_3, ATTRIBUTE_4) "
+                       "AND %s IN (ATTRIBUTE_1, ATTRIBUTE_2, ATTRIBUTE_3, ATTRIBUTE_4) ", (simplifier[0],
                                                                                             simplifier[1],
-                                                                                            simplifier[2]))
+                                                                                            simplifier[2],))
     elif len(simplifier) == 4:
-        cursor.execute("SELECT * FROM Ingredients "
-                       "WHERE (?) IN (ATTRIBUTE_1, ATTRIBUTE_2, ATTRIBUTE_3, ATTRIBUTE_4) "
-                       "AND (?) IN (ATTRIBUTE_1, ATTRIBUTE_2, ATTRIBUTE_3, ATTRIBUTE_4) "
-                       "AND (?) IN (ATTRIBUTE_1, ATTRIBUTE_2, ATTRIBUTE_3, ATTRIBUTE_4) "
-                       "AND (?) IN (ATTRIBUTE_1, ATTRIBUTE_2, ATTRIBUTE_3, ATTRIBUTE_4)", (simplifier[0],
+        cursor.execute("SELECT ingredient , id_object , attribute_1 , attribute_2 , attribute_3 , attribute_4 FROM Ingredients "
+                       "WHERE %s IN (ATTRIBUTE_1, ATTRIBUTE_2, ATTRIBUTE_3, ATTRIBUTE_4) "
+                       "AND %s IN (ATTRIBUTE_1, ATTRIBUTE_2, ATTRIBUTE_3, ATTRIBUTE_4) "
+                       "AND %s IN (ATTRIBUTE_1, ATTRIBUTE_2, ATTRIBUTE_3, ATTRIBUTE_4) "
+                       "AND %s IN (ATTRIBUTE_1, ATTRIBUTE_2, ATTRIBUTE_3, ATTRIBUTE_4)", (simplifier[0],
                                                                                            simplifier[1],
                                                                                            simplifier[2],
-                                                                                           simplifier[3]))
+                                                                                           simplifier[3],))
     result = cursor.fetchall()
+    cursor.close()
     conn.close()
     return result
 
@@ -46,10 +47,14 @@ def optimizer (attribute_1, attribute_2, attribute_3, attribute_4, bd_data):
     bd_result = connection_to_bd(attributes)
 
     #получаем набор элементов по условию
-    conn = sqlite3.connect("sac_app/Skyrim.sqlite")
+    conn = psycopg2.connect(host='localhost', port='5432', user='postgres', password='postgres', dbname='skyrim')
     cursor = conn.cursor()
-    cursor.execute("SELECT * FROM {0}".format(bd_data))
+    if bd_data == 'Positive':
+        cursor.execute("SELECT attribute FROM Positive")
+    else:
+        cursor.execute("SELECT attribute FROM Negative")
     bd_data = cursor.fetchall()
+    cursor.close()
     conn.close()
 
     #init
